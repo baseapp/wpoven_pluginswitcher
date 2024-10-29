@@ -1,0 +1,133 @@
+name: "action"
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - "releases/*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    env:
+      WP_PATH: /var/www/html
+      PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven-plugin-switcher
+      WORDPRESS_URL: http://localhost/
+      PLUGIN_SLUG: 'wpo-logs'
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      ADMIN_USER: admin
+      ADMIN_PASSWORD: Wpoven@baseapp1
+      ADMIN_EMAIL: admin@example.com
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PHP 8.0
+        run: |
+          sudo apt-get install -y software-properties-common
+          sudo add-apt-repository ppa:ondrej/php -y
+          sudo apt-get install -y php8.0 php8.0-cli php8.0-fpm php8.0-mbstring php8.0-xml php8.0-mysql
+
+      - name: Verify PHP Installation
+        run: php -v
+
+      - name: Start MySQL service
+        run: sudo service mysql start
+
+      - name: Download WordPress
+        run: |
+          wget https://wordpress.org/latest.tar.gz
+          tar -xzf latest.tar.gz
+          sudo mv wordpress/* $WP_PATH
+          sudo cp $WP_PATH/wp-config-sample.php $WP_PATH/wp-config.php
+          sudo sed -i "s/database_name_here/wordpress_test/" $WP_PATH/wp-config.php
+          sudo sed -i "s/username_here/root/" $WP_PATH/wp-config.php
+          sudo sed -i "s/password_here/root/" $WP_PATH/wp-config.php
+          mysql -u root --password=root -e "CREATE DATABASE wordpress_test"
+          sudo chmod -R 755 $WP_PATH
+          sudo service apache2 start
+
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp
+
+      - name: Install WordPress
+        run: |
+          cd $WP_PATH
+          wp core install --url="http://localhost" \
+                          --title="Test Site" \
+                          --admin_user="$ADMIN_USER" \
+                          --admin_password="Wpoven@baseapp1" \
+                          --admin_email="$ADMIN_EMAIL"
+
+      - name: Clone the plugin repository
+        run: |
+          sudo mkdir -p $PLUGIN_PATH
+          sudo git clone https://github.com/shyambaseapp/wpoven-plugin-switcher.git $PLUGIN_PATH
+          cd $PLUGIN_PATH
+          sudo git submodule update --init --recursive
+          sudo chown -R www-data:www-data $PLUGIN_PATH
+
+      - name: Activate the plugin
+        run: |
+          cd $WP_PATH
+          wp plugin activate wpoven-plugin-switcher
+          wp plugin verify-checksums wpoven-plugin-switcher
+
+      - name: Run plugin check
+        uses: wordpress/plugin-check-action@v1
+        with: 
+          exclude-checks: |
+            i18n_usage
+            late_escaping
+          exclude-files: |
+           .gitignore
+           .gitmodules
+          exclude-directories: |
+            redux-framework
+            plugin-update-checker
+        env:
+          PLUGIN_DIR: /var/www/html/wp-content/plugins/wpoven-plugin-switcher
+          PLUGIN_SLUG: wpoven-plugin-switcher
+          WP_VERSION: latest
+          
+      # New step: Check if WordPress is still accessible after plugin activation
+      - name: Install curl
+        run: sudo apt-get install -y curl
+
+      - name: Check WordPress Site Accessibility
+        run: |
+          SITE_URL="http://localhost"
+          PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=wpoven-plugin-switcher"
+
+          # Check if the main site is accessible
+          MAIN_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
+          echo "Main site HTTP response code: $MAIN_PAGE_RESPONSE"
+
+          # Check if the plugin settings page is accessible
+          SETTINGS_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$PLUGIN_SETTINGS_PAGE")
+          echo "Plugin settings page HTTP response code: $SETTINGS_PAGE_RESPONSE"
+
+          # Analyze the HTTP response codes
+          if [ "$MAIN_PAGE_RESPONSE" -eq 200 ]; then
+            echo "✅ Main site is accessible."
+          else
+            echo "🚨 Main site is NOT accessible. HTTP response code: $MAIN_PAGE_RESPONSE"
+          fi
+
+          if [ "$SETTINGS_PAGE_RESPONSE" -eq 200 ]; then
+            echo "✅ Plugin settings page is accessible."
+          else
+            echo "🚨 Plugin settings page is NOT accessible. HTTP response code: $SETTINGS_PAGE_RESPONSE"
+          fi
+
+      # New step: Ensure plugin is active without errors
+      - name: Ensure plugin is active
+        run: |
+          cd $WP_PATH
+          wp plugin is-active wpoven-plugin-switcher
