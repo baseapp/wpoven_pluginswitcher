@@ -16,7 +16,7 @@ jobs:
       WP_PATH: /var/www/html
       PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven-plugin-switcher
       WORDPRESS_URL: http://localhost/
-      PLUGIN_SLUG: 'wpo-logs'
+      PLUGIN_SLUG: 'wpoven-plugin-switcher'
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       ADMIN_USER: admin
       ADMIN_PASSWORD: Wpoven@baseapp1
@@ -68,7 +68,7 @@ jobs:
       - name: Clone the plugin repository
         run: |
           sudo mkdir -p $PLUGIN_PATH
-          sudo git clone https://github.com/shyambaseapp/wpoven-plugin-switcher.git $PLUGIN_PATH
+          sudo git clone https://github.com/baseapp/wpoven_pluginswitcher.git $PLUGIN_PATH
           cd $PLUGIN_PATH
           sudo git submodule update --init --recursive
           sudo chown -R www-data:www-data $PLUGIN_PATH
