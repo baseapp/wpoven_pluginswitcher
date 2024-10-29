@@ -12,14 +12,14 @@
 WPOven Plugin Switcher is a powerful WordPress management tool that enables users to easily activate or deactivate plugins on specific pages or posts, optimizing site performance and functionality while streamlining plugin configurations for a customized website experience.
 
 ## Screenshots
-![Plugin Switcher](https://github.com/baseapp/wpoven_pluginswitcher/assets/screenshots/wpoven-plugin-switcher.png)
+![Plugin Switcher](https://github.com/baseapp/wpoven_pluginswitcher/blob/main/assets/screenshots/wpoven-plugin-switcher.png)
 
 ## Installation
 
 1. **Download the Plugin:**
    - To get the latest version of WPOven Plugin Switcher, you can either:
      - [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
-     - Download directly from the GitHub repository: [Download](https://github.com/shyambaseapp/wpoven_pluginswitcher/archive/refs/tags/v1.0.0.zip).
+     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/archive/refs/tags/v1.0.0.zip).
 
 
 2. **Upload the Plugin:**
