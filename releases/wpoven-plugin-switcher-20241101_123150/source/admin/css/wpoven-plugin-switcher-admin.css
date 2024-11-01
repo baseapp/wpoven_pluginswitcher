@@ -1,0 +1,32 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+/* Custom accordion class styles */
+
+#setting-error-tgmpa {
+  color: rgb(228, 77, 17);
+  background-color: rgb(228, 245, 222);
+  height: 80px;
+}
+
+.accordion_bg_color .control .redux-accordion-info {
+  background-color: rgb(142, 194, 124);
+}
+
+.redux-accordion-desc {
+  display: none;
+}
+
+.icon-container {
+  cursor: pointer; /* Make the icon look clickable */
+  margin-left: 5px;
+  padding: 0px 5px; /* Adjust padding as needed */
+  display: inline-block;
+}
+
+.copied-text {
+  margin-left: 5px; /* Adjust margin as needed */
+  color: #0b78af; /* Adjust color as needed */
+  font-size: 10px; /* Adjust font size as needed */
+}
