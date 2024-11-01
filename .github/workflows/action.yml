@@ -74,10 +74,9 @@ jobs:
       - name: Activate the plugin
         run: |
           cd $WP_PATH
-          ls
-          wp plugin activate wpoven-plugin-switcher
-          wp plugin verify-checksums wpoven-plugin-switcher
-
+          ls /var/www/html/wp-content/plugins/wpoven_pluginswitcher
+          wp plugin activate wpoven_pluginswitcher
+          wp plugin verify-checksums wpoven_pluginswitcher
       - name: Run plugin check
         uses: wordpress/plugin-check-action@v1
         with: 
@@ -88,10 +87,10 @@ jobs:
            .gitignore
            .gitmodules
           exclude-directories: |
-            redux-framework
+            /redux-framework
             plugin-update-checker
         env:
-          PLUGIN_DIR: /var/www/html/wp-content/plugins/wpoven-plugin-switcher
+          PLUGIN_DIR: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
           PLUGIN_SLUG: wpoven-plugin-switcher
           WP_VERSION: latest
 
