@@ -161,6 +161,7 @@
     $("#add-rule-button-buttonsetenabled")
       .parent()
       .click(function (event) {
+        event.stopPropagation();
         // Prompt the user to enter some text
         var userInput = prompt("Please enter rule name:");
 
