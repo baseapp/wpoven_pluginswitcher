@@ -54,8 +54,8 @@ class Wpoven_Plugin_Switcher_Admin
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		if (!class_exists('ReduxFramework') && file_exists(require_once plugin_dir_path(dirname(__FILE__)) . 'redux-framework/redux-core/framework.php')) {
-			require_once plugin_dir_path(dirname(__FILE__)) . 'redux-framework/redux-core/framework.php';
+		if (!class_exists('ReduxFramework') && file_exists(require_once plugin_dir_path(dirname(__FILE__)) . 'includes/libraries/redux-framework/redux-core/framework.php')) {
+			require_once plugin_dir_path(dirname(__FILE__)) . 'includes/libraries/redux-framework/redux-core/framework.php';
 		}
 		if (! function_exists('WP_Filesystem')) {
 			require_once(ABSPATH . 'wp-admin/includes/file.php');
