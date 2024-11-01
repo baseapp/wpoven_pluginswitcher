@@ -68,6 +68,7 @@ jobs:
           sudo cp -r $GITHUB_WORKSPACE/source/* $PLUGIN_PATH/
           ls $PLUGIN_PATH
           ls $PLUGIN_PATH/includes/libraries
+          cd $GITHUB_WORKSPACE
           sudo git submodule update --init --recursive $PLUGIN_PATH
           sudo chown -R www-data:www-data $PLUGIN_PATH
 
