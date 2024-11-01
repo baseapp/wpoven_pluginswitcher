@@ -74,7 +74,6 @@ jobs:
       - name: Activate the plugin
         run: |
           cd $WP_PATH
-          ls /var/www/html/wp-content/plugins/wpoven_pluginswitcher
           wp plugin activate wpoven_pluginswitcher
           wp plugin verify-checksums wpoven_pluginswitcher
       - name: Run plugin check
