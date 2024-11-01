@@ -47,7 +47,7 @@ define('WPOVEN_PLUGIN_SWITCHER_PLUGIN_DIR', plugin_dir_path(__DIR__));
 define('WPOVEN_PLUGIN_SWITCHER_PLUGIN_BASE', plugin_basename(WPOVEN_PLUGIN_SWITCHER_ROOT_PL));
 define('WPOVEN_SWITCHER_PATH', realpath(plugin_dir_path(WPOVEN_PLUGIN_SWITCHER_ROOT_PL)) . '/');
 
-include_once WPOVEN_SWITCHER_PATH  . 'includes/libraries/plugin-update-checker/plugin-update-checker.php';
+require_once plugin_dir_path(__FILE__) . 'includes/libraries/plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
