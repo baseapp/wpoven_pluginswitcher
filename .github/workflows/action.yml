@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       WP_PATH: /var/www/html
-      PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven-plugin-switcher
+      PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
       WORDPRESS_URL: http://localhost/
       PLUGIN_SLUG: 'wpoven-plugin-switcher'
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
