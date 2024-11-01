@@ -61,7 +61,6 @@ jobs:
                           --admin_user="$ADMIN_USER" \
                           --admin_password="Wpoven@baseapp1" \
                           --admin_email="$ADMIN_EMAIL"
-
       - name: Clone the plugin repository
         run: |
           sudo mkdir -p $PLUGIN_PATH
