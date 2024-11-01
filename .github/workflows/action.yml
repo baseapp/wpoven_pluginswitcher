@@ -120,7 +120,7 @@ jobs:
           ZIP_NAME="wpoven-plugin-switcher-$VERSION.zip"
           
           # Create zip for release
-          zip -r "releases/$ZIP_NAME" source/* -x "source/.git*" 
+          zip -r "releases/$ZIP_NAME" -j source/* -x "source/.git*"
 
           # Also create a copy for GitHub release
           cp "releases/$ZIP_NAME" "./$ZIP_NAME.zip"
@@ -131,7 +131,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.zip_name }}.zip
+          files: ${{ env.zip_name }}
           tag_name: v${{ github.run_number }}
           name: WPOven Plugin Switcher v${{ github.run_number }}
           body: |
