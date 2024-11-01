@@ -47,7 +47,7 @@ define('WPOVEN_PLUGIN_SWITCHER_PLUGIN_DIR', plugin_dir_path(__DIR__));
 define('WPOVEN_PLUGIN_SWITCHER_PLUGIN_BASE', plugin_basename(WPOVEN_PLUGIN_SWITCHER_ROOT_PL));
 define('WPOVEN_SWITCHER_PATH', realpath(plugin_dir_path(WPOVEN_PLUGIN_SWITCHER_ROOT_PL)) . '/');
 
-include_once WPOVEN_SWITCHER_PATH  . 'source/plugin-update-checker/plugin-update-checker.php';
+include_once WPOVEN_SWITCHER_PATH  . 'includes/libraries/plugin-update-checker/plugin-update-checker.php';
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
@@ -65,7 +65,7 @@ $myUpdateChecker->setBranch('main');
  */
 function activate_wpoven_plugin_switcher()
 {
-	require_once plugin_dir_path(__FILE__) . 'source/includes/class-wpoven-plugin-switcher-activator.php';
+	require_once plugin_dir_path(__FILE__) . 'includes/class-wpoven-plugin-switcher-activator.php';
 	Wpoven_Plugin_Switcher_Activator::activate();
 
 	if (empty(get_option('wpoven-plugin-switcher-status')) || get_option('wpoven-plugin-switcher-status')) {
@@ -81,7 +81,7 @@ function activate_wpoven_plugin_switcher()
  */
 function deactivate_wpoven_plugin_switcher()
 {
-	require_once plugin_dir_path(__FILE__) . 'source/includes/class-wpoven-plugin-switcher-deactivator.php';
+	require_once plugin_dir_path(__FILE__) . 'includes/class-wpoven-plugin-switcher-deactivator.php';
 	Wpoven_Plugin_Switcher_Deactivator::deactivate();
 
 	if (empty(get_option('wpoven-plugin-switcher-status')) || get_option('wpoven-plugin-switcher-status')) {
@@ -104,7 +104,7 @@ register_deactivation_hook(__FILE__, 'deactivate_wpoven_plugin_switcher');
  * The core plugin class that is used to define internationalization,
  * admin-specific hooks, and public-facing site hooks.
  */
-require plugin_dir_path(__FILE__) . 'source/includes/class-wpoven-plugin-switcher.php';
+require plugin_dir_path(__FILE__) . 'includes/class-wpoven-plugin-switcher.php';
 
 /**
  * Begins execution of the plugin.
