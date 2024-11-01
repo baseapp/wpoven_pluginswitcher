@@ -52,10 +52,10 @@ To activate & deactivate a WordPress plugin on a specific page or post, you can 
 ### 3. Can I activate & deactivate plugins for multiple pages or posts at once?
 Yes, you can select multiple pages or posts to activate & deactivate a plugin.
 
-### Can WPOven Plugin Switcher activate & deactivate multiple plugins at once?
+### 4. Can WPOven Plugin Switcher activate & deactivate multiple plugins at once?
 Yes, WPOven Plugin Switcher allows you to activate & deactivate multiple plugins simultaneously, saving you time and effort.
 
-### 4. How can I disable WordPress plugins by custom URL?
+### 5. How can I disable WordPress plugins by custom URL?
 You can activate & deactivate a plugin via a custom URL. For example, consider that you are using the WooCommerce Plugin. You likely don't need to load the WooCommerce CSS/JS files on contact pages. To do this:
 1. Enable status -> On
 2. Rule Type -> URL or Page or Post
@@ -63,13 +63,13 @@ You can activate & deactivate a plugin via a custom URL. For example, consider t
 4. Plugin Status -> Activate/Deactivate
 5. Save changes.
 
-### 5. Is it safe to disable WordPress plugins?
+### 6. Is it safe to disable WordPress plugins?
 Yes, it is safe to activate & deactivate WordPress plugins. However, you should always make a backup of your website before activating & deactivating any plugins.
 
-### 6. Can I disable a plugin on my staging site?
+### 7. Can I disable a plugin on my staging site?
 Yes, you can activate & deactivate a plugin on your staging site. This can be helpful if you want to test how your website performs without a particular plugin.
 
-### 7. How do I disable a plugin using WPOven Plugin Switcher?
+### 8. How do I disable a plugin using WPOven Plugin Switcher?
 To activate & deactivate a plugin using WPOven Plugin Switcher, go to the WPOven Plugin Switcher settings page and select the "Status, Rule Type, Select Plugins, Plugin Status" option for the plugin you want to activate or deactivate.
 
 ## Changelog
