@@ -81,8 +81,8 @@ jobs:
            .gitignore
            .gitmodules
           exclude-directories: |
-            /redux-framework
-            plugin-update-checker
+            includes/libraries/redux-framework
+            includes/libraries/plugin-update-checker
         env:
           PLUGIN_DIR: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
           PLUGIN_SLUG: wpoven-plugin-switcher
