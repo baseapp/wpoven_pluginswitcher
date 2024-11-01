@@ -66,7 +66,6 @@ jobs:
           sudo mkdir -p $PLUGIN_PATH
           sudo cp -r $GITHUB_WORKSPACE/source/* $PLUGIN_PATH/
           ls $PLUGIN_PATH/includes/libraries/plugin-update-checker
-
       - name: Activate the plugin
         run: |
           cd $WP_PATH
