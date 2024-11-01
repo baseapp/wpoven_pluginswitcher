@@ -1,0 +1,6 @@
+[submodule "includes/libraries/plugin-update-checker"]
+	path = includes/libraries/plugin-update-checker
+	url = https://github.com/YahnisElsts/plugin-update-checker.git
+[submodule "includes/libraries/redux-framework"]
+	path = includes/libraries/redux-framework
+	url = https://github.com/reduxframework/redux-framework.git
