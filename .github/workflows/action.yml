@@ -21,7 +21,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+        with:
+          submodules: recursive
       - name: Install PHP 8.0
         run: |
           sudo apt-get install -y software-properties-common
@@ -68,7 +69,7 @@ jobs:
           cd $PLUGIN_PATH
           sudo git submodule update --init --recursive
           sudo chown -R www-data:www-data $PLUGIN_PATH
-          
+
       - name: Activate the plugin
         run: |
           cd $WP_PATH
@@ -112,6 +113,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Create releases directory
         run: mkdir -p releases
