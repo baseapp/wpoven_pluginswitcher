@@ -67,6 +67,7 @@ jobs:
           sudo mkdir -p $PLUGIN_PATH
           sudo cp -r $GITHUB_WORKSPACE/source/* $PLUGIN_PATH/
           ls $PLUGIN_PATH/includes/libraries/plugin-update-checker
+          ls $PLUGIN_PATH/includes/libraries/redux-framework
 
       - name: Activate the plugin
         run: |
