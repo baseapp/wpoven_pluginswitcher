@@ -66,9 +66,6 @@ jobs:
         run: |
           sudo mkdir -p $PLUGIN_PATH
           sudo cp -r $GITHUB_WORKSPACE/source/* $PLUGIN_PATH/
-          cd $PLUGIN_PATH
-          sudo git submodule update --init --recursive
-          sudo chown -R www-data:www-data $PLUGIN_PATH
 
       - name: Activate the plugin
         run: |
