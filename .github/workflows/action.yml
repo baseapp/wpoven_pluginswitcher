@@ -74,7 +74,6 @@ jobs:
           sudo chown -R www-data:www-data $PLUGIN_PATH
           # Clean up the temporary directory
           rm -rf $TEMP_DIR
-          ls $PLUGIN_PATH/includes/libraries/plugin-update-checker
           ls $PLUGIN_PATH/includes/libraries/redux-framework
 
       - name: Activate the plugin
