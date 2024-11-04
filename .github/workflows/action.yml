@@ -13,6 +13,7 @@ jobs:
       PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
       WORDPRESS_URL: http://localhost/
       PLUGIN_SLUG: 'wpoven-plugin-switcher'
+      PLUGIN_VERSION: '1.0.0'
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       ADMIN_USER: admin
       ADMIN_PASSWORD: Wpoven@baseapp1
@@ -131,9 +132,8 @@ jobs:
 
       - name: Create plugin zip
         run: |
-          # Create versioned zip of source folder
-          VERSION=$(date +'%Y%m%d_%H%M%S')
-          ZIP_NAME="wpoven-plugin-switcher-$VERSION.zip"
+          # Create zip of source folder
+          ZIP_NAME="wpoven-plugin-switcher.zip"
           
           mkdir -p releases
 
@@ -150,10 +150,10 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: ${{ env.zip_name }}
-          tag_name: v${{ github.run_number }}
-          name: WPOven Plugin Switcher v${{ github.run_number }}
+          tag_name: $PLUGIN_VERSION
+          name: WPOven Plugin Switcher
           body: |
-            WPOven Plugin Switcher Release ${{ github.run_number }}
+            WPOven Plugin Switcher Release $PLUGIN_VERSION
             
             Created on: ${{ steps.date.outputs.date }}
           draft: false
