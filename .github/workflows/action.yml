@@ -66,7 +66,9 @@ jobs:
           sudo mkdir -p $PLUGIN_PATH
           # Clone the repository into a temporary directory
           TEMP_DIR=$(mktemp -d)
-          git clone --recurse-submodules https://github.com/baseapp/wpoven_pluginswitcher $TEMP_DIR
+          git clone https://github.com/baseapp/wpoven_pluginswitcher $TEMP_DIR
+          cd $TEMP_DIR
+          sudo git submodule update --init --recursive
           # Move the contents of the source folder to the plugin path
           sudo mv $TEMP_DIR/source/* $PLUGIN_PATH/
           sudo chown -R www-data:www-data $PLUGIN_PATH
