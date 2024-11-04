@@ -133,7 +133,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.zip_name }}
+          files: ${{ env.zip_name }}.zip
           tag_name: v${{ github.run_number }}
           name: WPOven Plugin Switcher v${{ github.run_number }}
           body: |
