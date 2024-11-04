@@ -23,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - name: Install PHP 8.0
         run: |
           sudo apt-get install -y software-properties-common
@@ -66,6 +67,7 @@ jobs:
         run: |
           sudo mkdir -p $PLUGIN_PATH
           sudo cp -r $GITHUB_WORKSPACE/source/* $PLUGIN_PATH/
+          sudo chown -R www-data:www-data $PLUGIN_PATH
           ls $PLUGIN_PATH/includes/libraries/plugin-update-checker
           ls $PLUGIN_PATH/includes/libraries/redux-framework
 
