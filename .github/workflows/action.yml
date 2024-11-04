@@ -125,7 +125,7 @@ jobs:
           (cd source && zip -r "../releases/$ZIP_NAME" . -x ".git*")
           
           # Also create a copy for GitHub release
-          cp "releases/$ZIP_NAME" "./$ZIP_NAME.zip"
+          cp "releases/$ZIP_NAME" "./$ZIP_NAME"
           
           # Set output variable for later steps
           echo "zip_name=$ZIP_NAME" >> $GITHUB_ENV
@@ -133,7 +133,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.zip_name }}.zip
+          files: ${{ env.zip_name }}
           tag_name: v${{ github.run_number }}
           name: WPOven Plugin Switcher v${{ github.run_number }}
           body: |
