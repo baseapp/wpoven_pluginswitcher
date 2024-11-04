@@ -120,8 +120,8 @@ jobs:
           ZIP_NAME="wpoven-plugin-switcher-$VERSION.zip"
           
           # Create zip for release
-          zip -r "releases/$ZIP_NAME" -j source/* -x "source/.git*"
-
+          zip -r "releases/$ZIP_NAME" source/* -x "source/.git*" "source/**/*.editorconfig"
+          
           # Also create a copy for GitHub release
           cp "releases/$ZIP_NAME" "./$ZIP_NAME.zip"
           
