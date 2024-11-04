@@ -68,9 +68,11 @@ jobs:
           TEMP_DIR=$(mktemp -d)
           git clone https://github.com/baseapp/wpoven_pluginswitcher $TEMP_DIR
           cd $TEMP_DIR
-          sudo git submodule update --init --recursive
+          git submodule init
+          git submodule sync
+          git submodule update --init --recursive --force
           # Move the contents of the source folder to the plugin path
-          sudo mv $TEMP_DIR/source/* $PLUGIN_PATH/
+          sudo cp -r $TEMP_DIR/source/* $PLUGIN_PATH/
           sudo chown -R www-data:www-data $PLUGIN_PATH
           # Clean up the temporary directory
           rm -rf $TEMP_DIR
