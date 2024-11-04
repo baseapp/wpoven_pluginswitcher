@@ -119,8 +119,10 @@ jobs:
           VERSION=$(date +'%Y%m%d_%H%M%S')
           ZIP_NAME="wpoven-plugin-switcher-$VERSION.zip"
           
+          mkdir -p releases
+
           # Create zip for release
-          (cd source && zip -r "releases/$ZIP_NAME" . -x ".git*")
+          (cd source && zip -r "../releases/$ZIP_NAME" . -x ".git*")
           
           # Also create a copy for GitHub release
           cp "releases/$ZIP_NAME" "./$ZIP_NAME.zip"
