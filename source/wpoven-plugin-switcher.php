@@ -58,8 +58,8 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 );
 
 //Set the branch that contains the stable release.
-// $myUpdateChecker->setBranch('main');
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+ $myUpdateChecker->setBranch('main');
+//$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
  * The code that runs during plugin activation.
