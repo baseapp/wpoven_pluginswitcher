@@ -19,7 +19,7 @@ optimizing site performance and functionality while streamlining plugin configur
 1. **Download the Plugin:**
      - To get the latest version of WPOven Plugin Switcher, you can either:
      - [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
-     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.0.0/wpoven-plugin-switcher.zip).
+     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.0.0/wpoven-plugin-switcher-2024-11-05.zip).
 
 2. **Upload the Plugin:**
    - Log in to your WordPress admin dashboard.
