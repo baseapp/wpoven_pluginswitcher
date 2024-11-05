@@ -407,7 +407,7 @@ class Wpoven_Plugin_Switcher_Admin
 			'transient_time'            => 60 * MINUTE_IN_SECONDS,
 			'output'                    => false,
 			'output_tag'                => false,
-			'footer_credit'             => 'Please rate WPOven Plugin Switcher ★★★★★ on WordPress.org to support us. Thank you!',
+			//'footer_credit'             => 'Please rate WPOven Plugin Switcher ★★★★★ on WordPress.org to support us. Thank you!',
 			'use_cdn'                   => false,
 			'admin_theme'               => 'wp',
 			'flyout_submenus'           => false,

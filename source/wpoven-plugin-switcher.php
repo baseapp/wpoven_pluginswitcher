@@ -16,7 +16,7 @@
  * Plugin Name:       WPOven Plugin Switcher
  * Plugin URI:        https://www.wpoven.com/plugins/wpoven-plugin-switcher
  * Description:       Allows users to quickly enable or disable plugins as per need. 
- * Version:           1.0.0
+ * Version:           2.0.0
  * Author:            WPOven
  * Author URI:        https://www.wpoven.com/
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPOVEN_PLUGIN_SWITCHER_VERSION', '1.0.0');
+define('WPOVEN_PLUGIN_SWITCHER_VERSION', '2.0.0');
 if (!defined('WPOVEN_PLUGIN_SWITCHER_SLUG'))
 	define('WPOVEN_PLUGIN_SWITCHER_SLUG', 'wpoven-plugin-switcher');
 
@@ -48,6 +48,7 @@ define('WPOVEN_PLUGIN_SWITCHER_PLUGIN_BASE', plugin_basename(WPOVEN_PLUGIN_SWITC
 define('WPOVEN_SWITCHER_PATH', realpath(plugin_dir_path(WPOVEN_PLUGIN_SWITCHER_ROOT_PL)) . '/');
 
 require_once plugin_dir_path(__FILE__) . 'includes/libraries/plugin-update-checker/plugin-update-checker.php';
+
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 $myUpdateChecker = PucFactory::buildUpdateChecker(
@@ -57,7 +58,8 @@ $myUpdateChecker = PucFactory::buildUpdateChecker(
 );
 
 //Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('main');
+// $myUpdateChecker->setBranch('main');
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
  * The code that runs during plugin activation.
