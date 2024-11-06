@@ -175,7 +175,7 @@ jobs:
           (cd source && zip -r "../releases/${{ steps.versions.outputs.zip_name }}" . -x ".*" -x "__MACOSX" -x "*.git*")
           
           # Create copy for GitHub release
-          cp "releases/${{ steps.versions.outputs.zip_name }}" "./{{ steps.versions.outputs.zip_name }}"
+          cp "releases/${{ steps.versions.outputs.zip_name }}" "./${{ steps.versions.outputs.zip_name }}"
 
       - name: Update README
         run: |
@@ -191,7 +191,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files:  ${{ env.zip_name }}
+          files: ${{ steps.versions.outputs.zip_name }}
           tag_name: ${{ steps.versions.outputs.plugin_version }}
           name: "WPOven Plugin Switcher v${{ steps.versions.outputs.plugin_version }}"
           body: |
