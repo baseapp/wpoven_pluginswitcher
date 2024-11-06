@@ -164,7 +164,7 @@ jobs:
           
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
           echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
-          echo "zip_name=$ZIP_NAME" >> $GITHUB_ENV
+          echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
 
       - name: Create plugin package
         run: |
