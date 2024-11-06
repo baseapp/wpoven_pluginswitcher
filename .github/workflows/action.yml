@@ -130,17 +130,17 @@ jobs:
       - name: Verify Plugin Accessibility
         run: |
           # Wait for server to be ready
-          sleep 5
+          sleep 10
           
           # Check main site
-          MAIN_RESPONSE=$(curl -sL -w "%{http_code}" "$WORDPRESS_URL" -o /dev/null)
+          MAIN_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$WORDPRESS_URL")
           if [ "$MAIN_RESPONSE" != "200" ]; then
             echo "❌ Main site is not accessible (HTTP $MAIN_RESPONSE)"
             exit 1
           fi
           
           # Check plugin admin page
-          ADMIN_RESPONSE=$(curl -sL -w "%{http_code}" "$WORDPRESS_URL/wp-admin/admin.php?page=wpoven-plugin-switcher" -o /dev/null)
+          ADMIN_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$WORDPRESS_URL/wp-admin/admin.php?page=wpoven-plugin-switcher")
           if [ "$ADMIN_RESPONSE" != "200" ]; then
             echo "❌ Plugin admin page is not accessible (HTTP $ADMIN_RESPONSE)"
             exit 1
