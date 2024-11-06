@@ -172,7 +172,7 @@ jobs:
           mkdir -p releases
           
           # Create plugin zip
-          (cd source && zip -r "../releases/$ZIP_NAME" . -x ".git*")
+          (cd source && zip -r "../releases/${{ steps.versions.outputs.zip_name }}" . -x ".*" -x "__MACOSX" -x "*.git*")
           
           # Create copy for GitHub release
           cp "releases/${{ steps.versions.outputs.zip_name }}" "./{{ steps.versions.outputs.zip_name }}"
