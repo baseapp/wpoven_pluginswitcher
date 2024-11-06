@@ -191,7 +191,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: "{{ steps.versions.outputs.zip_name }}"
+          files: ${{ steps.versions.outputs.zip_name }}
           tag_name: ${{ steps.versions.outputs.plugin_version }}
           name: "WPOven Plugin Switcher v${{ steps.versions.outputs.plugin_version }}"
           body: |
@@ -216,6 +216,6 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.md releases/
+          git add README.md  git add README.txt releases/
           git commit -m "Release v${{ steps.versions.outputs.plugin_version }} - Update README and add release files" || echo "No changes to commit"
           git push
