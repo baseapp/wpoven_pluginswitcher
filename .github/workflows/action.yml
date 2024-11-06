@@ -183,10 +183,10 @@ jobs:
           sed -i "s/\*\*Stable tag:\*\* [0-9.]*/**Stable tag:** ${{ steps.versions.outputs.plugin_version }}/" README.md
           sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
           
-          # Update readme.txt
-          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '6.6.2' }}/" readme.txt
-          sed -i "s/Stable tag: [0-9.]*/Stable tag: ${{ steps.versions.outputs.plugin_version }}/" readme.txt
-          sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" readme.txt
+          # Update README.txt
+          sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.txt
+          sed -i "s/Stable tag: [0-9.]*/Stable tag: ${{ steps.versions.outputs.plugin_version }}/" README.txt
+          sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.txt
       
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
