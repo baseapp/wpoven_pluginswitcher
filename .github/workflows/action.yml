@@ -67,6 +67,7 @@ jobs:
           # Set permissions
           sudo chown -R www-data:www-data $WP_PATH
           sudo chmod -R 755 $WP_PATH
+          sudo service apache2 start
 
       - name: Install WP-CLI
         run: |
