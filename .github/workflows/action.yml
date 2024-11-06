@@ -1,54 +1,72 @@
 name: "Plugin Check and Release"
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      wp_version:
+        description: 'WordPress version to test against'
+        required: true
+        default: '6.6.2'
+      plugin_version:
+        description: 'Plugin version to release'
+        required: true
+        default: '1.0.0'
+
+env:
+  PLUGIN_SLUG: 'wpoven-plugin-switcher'
+  WP_PATH: /var/www/html
+  PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
+  WORDPRESS_URL: http://localhost
+  ADMIN_USER: admin
+  ADMIN_PASSWORD: Wpoven@baseapp1
+  ADMIN_EMAIL: admin@example.com
 
 jobs:
   plugin-check:
+    name: WordPress Plugin Check
     runs-on: ubuntu-latest
-    env:
-      WP_PATH: /var/www/html
-      PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
-      WORDPRESS_URL: http://localhost/
-      PLUGIN_SLUG: 'wpoven-plugin-switcher'
-      PLUGIN_VERSION: '1.0.0'
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      ADMIN_USER: admin
-      ADMIN_PASSWORD: Wpoven@baseapp1
-      ADMIN_EMAIL: admin@example.com
-
+    outputs:
+      status: ${{ steps.plugin-check.outputs.status }}
+    
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: false
-      
-      - name: Install PHP 8.0
-        run: |
-          sudo apt-get install -y software-properties-common
-          sudo add-apt-repository ppa:ondrej/php -y
-          sudo apt-get install -y php8.0 php8.0-cli php8.0-fpm php8.0-mbstring php8.0-xml php8.0-mysql
 
-      - name: Verify PHP Installation
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, xml, mysql
+          coverage: none
+
+      - name: Verify PHP installation
         run: php -v
 
-      - name: Start MySQL service
-        run: sudo service mysql start
-
-      - name: Download WordPress
+      - name: Start MySQL
         run: |
+          sudo systemctl start mysql
+          mysql -e "CREATE DATABASE IF NOT EXISTS wordpress_test;" -uroot -proot
+
+      - name: Setup WordPress
+        run: |
+          # Download and extract WordPress
           wget https://wordpress.org/latest.tar.gz
-          tar -xzf latest.tar.gz
-          sudo mv wordpress/* $WP_PATH
+          sudo tar -xzf latest.tar.gz -C /var/www/html --strip-components=1
+          
+          # Configure wp-config.php
           sudo cp $WP_PATH/wp-config-sample.php $WP_PATH/wp-config.php
-          sudo sed -i "s/database_name_here/wordpress_test/" $WP_PATH/wp-config.php
-          sudo sed -i "s/username_here/root/" $WP_PATH/wp-config.php
-          sudo sed -i "s/password_here/root/" $WP_PATH/wp-config.php
-          mysql -u root --password=root -e "CREATE DATABASE wordpress_test"
+          sudo sed -i 's/database_name_here/wordpress_test/' $WP_PATH/wp-config.php
+          sudo sed -i 's/username_here/root/' $WP_PATH/wp-config.php
+          sudo sed -i 's/password_here/root/' $WP_PATH/wp-config.php
+          
+          # Set permissions
+          sudo chown -R www-data:www-data $WP_PATH
           sudo chmod -R 755 $WP_PATH
-          sudo service apache2 start
 
       - name: Install WP-CLI
         run: |
@@ -56,114 +74,146 @@ jobs:
           chmod +x wp-cli.phar
           sudo mv wp-cli.phar /usr/local/bin/wp
 
-      - name: Install WordPress
+      - name: Install WordPress Core
         run: |
           cd $WP_PATH
-          wp core install --url="http://localhost" \
-                          --title="Test Site" \
-                          --admin_user="$ADMIN_USER" \
-                          --admin_password="Wpoven@baseapp1" \
-                          --admin_email="$ADMIN_EMAIL"
-      - name: Clone the plugin repository
+          wp core install \
+            --url="$WORDPRESS_URL" \
+            --title="Test Site" \
+            --admin_user="$ADMIN_USER" \
+            --admin_password="$ADMIN_PASSWORD" \
+            --admin_email="$ADMIN_EMAIL" \
+            --skip-email
+
+      - name: Setup Plugin
         run: |
           sudo mkdir -p $PLUGIN_PATH
-          # Clone the repository into a temporary directory
           TEMP_DIR=$(mktemp -d)
-          git clone https://github.com/baseapp/wpoven_pluginswitcher $TEMP_DIR
-          cd $TEMP_DIR
-          git submodule init
-          git submodule sync
-          git submodule update --init --recursive --force
-          # Move the contents of the source folder to the plugin path
-          sudo cp -r $TEMP_DIR/source/* $PLUGIN_PATH/
+          
+          # Copy plugin files
+          cp -r source/* $TEMP_DIR/
+          sudo cp -r $TEMP_DIR/* $PLUGIN_PATH/
+          
+          # Set permissions
           sudo chown -R www-data:www-data $PLUGIN_PATH
-          # Clean up the temporary directory
           rm -rf $TEMP_DIR
-          ls $PLUGIN_PATH/includes/libraries/redux-framework
 
-      - name: Activate the plugin
+      - name: Activate and Verify Plugin
+        id: plugin-check
         run: |
           cd $WP_PATH
           wp plugin activate wpoven_pluginswitcher
           wp plugin verify-checksums wpoven_pluginswitcher
-      - name: Run plugin check
+          echo "status=success" >> $GITHUB_OUTPUT
+
+      - name: Run Plugin Check
         uses: wordpress/plugin-check-action@v1
-        with: 
+        with:
           exclude-checks: |
             i18n_usage
             late_escaping
           exclude-files: |
-           .gitignore
-           .gitmodules
+            .gitignore
+            .gitmodules
           exclude-directories: |
             includes/libraries/redux-framework
             includes/libraries/plugin-update-checker
         env:
-          PLUGIN_DIR: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
-          PLUGIN_SLUG: wpoven-plugin-switcher
-          WP_VERSION: latest
+          PLUGIN_DIR: ${{ env.PLUGIN_PATH }}
+          PLUGIN_SLUG: ${{ env.PLUGIN_SLUG }}
+          WP_VERSION: ${{ github.event.inputs.wp_version || 'latest' }}
 
-      - name: Check WordPress Site Accessibility
+      - name: Verify Plugin Accessibility
         run: |
-          SITE_URL="http://localhost"
-          PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=wpoven-plugin-switcher"
+          # Wait for server to be ready
+          sleep 5
           
-          MAIN_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
-          SETTINGS_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$PLUGIN_SETTINGS_PAGE")
-          
-          if [ "$MAIN_PAGE_RESPONSE" != "200" ] || [ "$SETTINGS_PAGE_RESPONSE" != "200" ]; then
-            echo "Site accessibility check failed"
+          # Check main site
+          MAIN_RESPONSE=$(curl -sL -w "%{http_code}" "$WORDPRESS_URL" -o /dev/null)
+          if [ "$MAIN_RESPONSE" != "200" ]; then
+            echo "❌ Main site is not accessible (HTTP $MAIN_RESPONSE)"
             exit 1
           fi
+          
+          # Check plugin admin page
+          ADMIN_RESPONSE=$(curl -sL -w "%{http_code}" "$WORDPRESS_URL/wp-admin/admin.php?page=wpoven-plugin-switcher" -o /dev/null)
+          if [ "$ADMIN_RESPONSE" != "200" ]; then
+            echo "❌ Plugin admin page is not accessible (HTTP $ADMIN_RESPONSE)"
+            exit 1
+          fi
+          
+          echo "✅ All pages are accessible"
 
   create-release:
+    name: Create Release
     needs: plugin-check
+    if: needs.plugin-check.outputs.status == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           submodules: recursive
 
-      - name: Create releases directory
-        run: mkdir -p releases
-
-      - name: Create plugin zip
+      - name: Set version variables
+        id: versions
         run: |
-          # Create zip of source folder
-          ZIP_NAME="wpoven-plugin-switcher-$(date +'%Y-%m-%d').zip"
+          RELEASE_DATE=$(date +'%Y-%m-%d')
+          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.0.0' }}"
+          ZIP_NAME="${{ env.PLUGIN_SLUG }}-${RELEASE_DATE}.zip"
           
-          mkdir -p releases
+          echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
+          echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
+          echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
 
-          # Create zip for release
-          (cd source && zip -r "../releases/$ZIP_NAME" . -x ".git*")
+      - name: Create plugin package
+        run: |
+          # Create releases directory
+          mkdir -p releases
           
-          # Also create a copy for GitHub release
-          cp "releases/$ZIP_NAME" "./$ZIP_NAME"
+          # Create plugin zip
+          (cd source && zip -r "../releases/${{ steps.versions.outputs.zip_name }}" . -x ".*" -x "__MACOSX" -x "*.git*")
           
-          # Set output variable for later steps
-          echo "zip_name=$ZIP_NAME" >> $GITHUB_ENV
+          # Create copy for GitHub release
+          cp "releases/${{ steps.versions.outputs.zip_name }}" "./plugin-release.zip"
+
+      - name: Update README
+        run: |
+          sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.md
+          sed -i "s/\*\*Stable tag:\*\* [0-9.]*/**Stable tag:** ${{ steps.versions.outputs.plugin_version }}/" README.md
+          sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: ${{ env.zip_name }}
-          tag_name: '1.0.0'
-          name: WPOven Plugin Switcher
+          files: plugin-release.zip
+          tag_name: ${{ steps.versions.outputs.plugin_version }}
+          name: "WPOven Plugin Switcher v${{ steps.versions.outputs.plugin_version }}"
           body: |
-            WPOven Plugin Switcher Release 1.0.0
-            Created on: ${{ steps.date.outputs.date }}
+            🚀 WPOven Plugin Switcher Release v${{ steps.versions.outputs.plugin_version }}
+            
+            Release Date: ${{ steps.versions.outputs.release_date }}
+            Tested with WordPress: ${{ github.event.inputs.wp_version || '6.6.2' }}
+            
+            ### Changes in this version:
+            - [Add release notes here]
+            
+            ### Installation
+            1. Download the plugin zip file
+            2. Go to WordPress Admin > Plugins > Add New > Upload Plugin
+            3. Upload the zip file and activate the plugin
           draft: false
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and push zip to releases folder
+      - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add releases/
-          git commit -m "Add new release zip file [skip ci]" || echo "No changes to commit"
+          git add README.md releases/
+          git commit -m "Release v${{ steps.versions.outputs.plugin_version }} - Update README and add release files" || echo "No changes to commit"
           git push
