@@ -164,7 +164,7 @@ jobs:
           
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
           echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
-          echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
+          echo "zip_name=$ZIP_NAME" >> $GITHUB_ENV
 
       - name: Create plugin package
         run: |
@@ -191,7 +191,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: {{ steps.versions.outputs.zip_name }}
+          files:  ${{ env.zip_name }}
           tag_name: ${{ steps.versions.outputs.plugin_version }}
           name: "WPOven Plugin Switcher v${{ steps.versions.outputs.plugin_version }}"
           body: |
