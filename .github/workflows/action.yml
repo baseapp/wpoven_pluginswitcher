@@ -129,24 +129,16 @@ jobs:
 
       - name: Verify Plugin Accessibility
         run: |
-          # Wait for server to be ready
-          sleep 10
+          SITE_URL="http://localhost"
+          PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=wpoven-plugin-switcher"
           
-          # Check main site
-          MAIN_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$WORDPRESS_URL")
-          if [ "$MAIN_RESPONSE" != "200" ]; then
-            echo "❌ Main site is not accessible (HTTP $MAIN_RESPONSE)"
+          MAIN_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
+          SETTINGS_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$PLUGIN_SETTINGS_PAGE")
+          
+          if [ "$MAIN_PAGE_RESPONSE" != "200" ] || [ "$SETTINGS_PAGE_RESPONSE" != "200" ]; then
+            echo "Site accessibility check failed"
             exit 1
           fi
-          
-          # Check plugin admin page
-          ADMIN_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$WORDPRESS_URL/wp-admin/admin.php?page=wpoven-plugin-switcher")
-          if [ "$ADMIN_RESPONSE" != "200" ]; then
-            echo "❌ Plugin admin page is not accessible (HTTP $ADMIN_RESPONSE)"
-            exit 1
-          fi
-          
-          echo "✅ All pages are accessible"
 
   create-release:
     name: Create Release
