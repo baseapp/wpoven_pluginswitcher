@@ -175,7 +175,7 @@ jobs:
           (cd source && zip -r "../releases/${{ steps.versions.outputs.zip_name }}" . -x ".*" -x "__MACOSX" -x "*.git*")
           
           # Create copy for GitHub release
-          cp -r "releases/${{ steps.versions.outputs.zip_name }}" "./${{ steps.versions.outputs.zip_name }}"
+          cp "releases/${{ steps.versions.outputs.zip_name }}" "./${{ steps.versions.outputs.zip_name }}"
 
       - name: Update README
         run: |
@@ -199,14 +199,6 @@ jobs:
             
             Release Date: ${{ steps.versions.outputs.release_date }}
             Tested with WordPress: ${{ github.event.inputs.wp_version || '6.6.2' }}
-            
-            ### Changes in this version:
-            - [Add release notes here]
-            
-            ### Installation
-            1. Download the plugin zip file
-            2. Go to WordPress Admin > Plugins > Add New > Upload Plugin
-            3. Upload the zip file and activate the plugin
           draft: false
           prerelease: false
         env:
