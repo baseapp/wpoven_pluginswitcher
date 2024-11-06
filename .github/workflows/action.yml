@@ -88,15 +88,19 @@ jobs:
       - name: Setup Plugin
         run: |
           sudo mkdir -p $PLUGIN_PATH
+          # Clone the repository into a temporary directory
           TEMP_DIR=$(mktemp -d)
-          
-          # Copy plugin files
-          cp -r source/* $TEMP_DIR/
-          sudo cp -r $TEMP_DIR/* $PLUGIN_PATH/
-          
-          # Set permissions
+          git clone https://github.com/baseapp/wpoven_pluginswitcher $TEMP_DIR
+          cd $TEMP_DIR
+          git submodule init
+          git submodule sync
+          git submodule update --init --recursive --force
+          # Move the contents of the source folder to the plugin path
+          sudo cp -r $TEMP_DIR/source/* $PLUGIN_PATH/
           sudo chown -R www-data:www-data $PLUGIN_PATH
+          # Clean up the temporary directory
           rm -rf $TEMP_DIR
+          ls $PLUGIN_PATH/includes/libraries/redux-framework
 
       - name: Activate and Verify Plugin
         id: plugin-check
