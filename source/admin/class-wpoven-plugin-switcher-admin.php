@@ -179,6 +179,8 @@ class Wpoven_Plugin_Switcher_Admin
 			$plugin_options[$plugin] = $option_value;
 		}
 
+		unset($plugin_options[WPOVEN_PLUGIN_SWITCHER_SLUG.'/'.WPOVEN_PLUGIN_SWITCHER_SLUG.'.php']);
+		
 		$accordions = array();
 		$addRule = array(
 			'id'         => 'add-rule-button',

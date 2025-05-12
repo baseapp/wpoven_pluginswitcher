@@ -114,6 +114,9 @@ class WPOvenPluginSwitcher
             $rulePlugins = $plugins;
         }
 
+        $plugin_file = WPOVEN_PLUGIN_SWITCHER_SLUG . '/' . WPOVEN_PLUGIN_SWITCHER_SLUG . '.php';
+        $rulePlugins[] = $plugin_file;
+
         return $rulePlugins;
     }
 }
