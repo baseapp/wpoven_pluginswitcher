@@ -2,7 +2,7 @@
 
 **Contributors:** [WPOven](https://www.wpoven.com/)  
 **Requires at least:** 6.6.2  
-**Tested up to:** 6.6.2  
+**Tested up to:** 6.8.1  
 **Stable tag:** 1.0.0  
 **License:** GPLv2 or later  
 **License URI:** [http://www.gnu.org/licenses/gpl-2.0.html](http://www.gnu.org/licenses/gpl-2.0.html)  
