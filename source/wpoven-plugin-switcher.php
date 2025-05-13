@@ -35,7 +35,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPOVEN_PLUGIN_SWITCHER_VERSION', '1.0.0');
+define('WPOVEN_PLUGIN_SWITCHER_VERSION', '1.1.0');
 if (!defined('WPOVEN_PLUGIN_SWITCHER_SLUG'))
 	define('WPOVEN_PLUGIN_SWITCHER_SLUG', 'wpoven-plugin-switcher');
 
