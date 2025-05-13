@@ -1,8 +1,13 @@
 === WPOven Plugin Switcher ===
 Contributors: https://www.wpoven.com/
 Requires at least: 6.6
+<<<<<<< HEAD
 Tested up to: 6.8
 Stable tag: 1.1.0
+=======
+Tested up to: 6.6.2
+Stable tag: 1.0.0
+>>>>>>> 2fe7c8c6491ebd1558951a6bf4364206c4d967c0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
