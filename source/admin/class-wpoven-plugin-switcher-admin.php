@@ -179,8 +179,8 @@ class Wpoven_Plugin_Switcher_Admin
 			$plugin_options[$plugin] = $option_value;
 		}
 
-		unset($plugin_options[WPOVEN_PLUGIN_SWITCHER_SLUG.'/'.WPOVEN_PLUGIN_SWITCHER_SLUG.'.php']);
-		
+		unset($plugin_options[WPOVEN_PLUGIN_SWITCHER_SLUG . '/' . WPOVEN_PLUGIN_SWITCHER_SLUG . '.php']);
+
 		$accordions = array();
 		$addRule = array(
 			'id'         => 'add-rule-button',
@@ -219,10 +219,10 @@ class Wpoven_Plugin_Switcher_Admin
 
 				$delteURL = $current_url . '&delete=' . $uid;
 
-				$ruleStatus = get_option('wpoven-plugin-switcher');
+				$rulesDetails = get_option('wpoven-plugin-switcher');
 				$accordion_class = '';
-				if (isset($ruleStatus[$uid . '_status'])) {
-					if ($ruleStatus[$uid . '_status'] == true) {
+				if (isset($rulesDetails[$uid . '_status'])) {
+					if ($rulesDetails[$uid . '_status'] == true) {
 						$accordion_class = 'accordion_bg_color';
 					}
 				}
@@ -234,7 +234,7 @@ class Wpoven_Plugin_Switcher_Admin
 				$accordionStart = array(
 					'id'        => $uid . '-start',
 					'type'      => 'accordion',
-					'title'     => $ruleName,
+					'title'     => $rulesDetails[$uid . '_name'] ?? $ruleName,
 					'subtitle'     => admin_url('admin.php?page=' . WPOVEN_PLUGIN_SWITCHER_SLUG . '&rule=' . $ruleName),
 					'class'     => $accordion_class,
 					'open'      => $open,
@@ -320,7 +320,8 @@ class Wpoven_Plugin_Switcher_Admin
 					'chosen'      => true,
 					'multi'       => true,
 					//'validate' => 'not_empty',
-					'desc'        => 'Select plugins to activate or deactivate. No effect on pages if none are selected. Multi-selection supported.',
+					//'desc'        => 'Select plugins to activate or deactivate. No effect on pages if none are selected. Multi-selection supported.',
+					'desc' => 'Select plugins to activate or deactivate for related page. Plugins deactivated by an active rule will be hidden from this list. Multi-selection supported. No effect on pages if none are selected.',
 					//'ajax'      => true,
 					'data'        => $plugin_options,
 				);
