@@ -4,8 +4,13 @@
 
 **Contributors:** [WPOven](https://www.wpoven.com/)  
 **Requires at least:** 6.6
+<<<<<<< HEAD
 **Tested up to:** 6.8
 **Stable tag:** 1.1.1  
+=======
+**Tested up to:** 6.6.2
+**Stable tag:** 1.1.0  
+>>>>>>> f509d8e5ec9f9222626bfc38b4e8d47afd7fd79f
 **License:** GPLv2 or later  
 **License URI:** [http://www.gnu.org/licenses/gpl-2.0.html](http://www.gnu.org/licenses/gpl-2.0.html)
 
@@ -23,7 +28,7 @@ WPOven Plugin Switcher is a powerful WordPress management tool that enables user
 
    - To get the latest version of WPOven Plugin Switcher, you can either:
      - [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
-     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.0.0/wpoven-plugin-switcher-2025-05-12.zip).
+     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.1.0/wpoven-plugin-switcher-2025-05-13.zip).
 
 2. **Upload the Plugin:**
 
