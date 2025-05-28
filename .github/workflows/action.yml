@@ -7,16 +7,16 @@ on:
   workflow_dispatch:
     inputs:
       wp_version:
-        description: 'WordPress version to test against'
+        description: "WordPress version to test against"
         required: true
-        default: '6.6.2'
+        default: "6.6.2"
       plugin_version:
-        description: 'Plugin version to release'
+        description: "Plugin version to release"
         required: true
-        default: '1.1.0'
+        default: "1.1.1"
 
 env:
-  PLUGIN_SLUG: 'wpoven-plugin-switcher'
+  PLUGIN_SLUG: "wpoven-plugin-switcher"
   WP_PATH: /var/www/html
   PLUGIN_PATH: /var/www/html/wp-content/plugins/wpoven_pluginswitcher
   WORDPRESS_URL: http://localhost
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.plugin-check.outputs.status }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -40,7 +40,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: "8.0"
           extensions: mbstring, xml, mysql
           coverage: none
 
@@ -57,13 +57,13 @@ jobs:
           # Download and extract WordPress
           wget https://wordpress.org/latest.tar.gz
           sudo tar -xzf latest.tar.gz -C /var/www/html --strip-components=1
-          
+
           # Configure wp-config.php
           sudo cp $WP_PATH/wp-config-sample.php $WP_PATH/wp-config.php
           sudo sed -i 's/database_name_here/wordpress_test/' $WP_PATH/wp-config.php
           sudo sed -i 's/username_here/root/' $WP_PATH/wp-config.php
           sudo sed -i 's/password_here/root/' $WP_PATH/wp-config.php
-          
+
           # Set permissions
           sudo chown -R www-data:www-data $WP_PATH
           sudo chmod -R 755 $WP_PATH
@@ -132,10 +132,10 @@ jobs:
         run: |
           SITE_URL="http://localhost"
           PLUGIN_SETTINGS_PAGE="$SITE_URL/wp-admin/admin.php?page=wpoven-plugin-switcher"
-          
+
           MAIN_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
           SETTINGS_PAGE_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" "$PLUGIN_SETTINGS_PAGE")
-          
+
           if [ "$MAIN_PAGE_RESPONSE" != "200" ] || [ "$SETTINGS_PAGE_RESPONSE" != "200" ]; then
             echo "Site accessibility check failed"
             exit 1
@@ -148,7 +148,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -159,9 +159,9 @@ jobs:
         id: versions
         run: |
           RELEASE_DATE=$(date +'%Y-%m-%d')
-          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.1.0' }}"
+          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.1.1' }}"
           ZIP_NAME="${{ env.PLUGIN_SLUG }}-${RELEASE_DATE}.zip"
-          
+
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
           echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
           echo "zip_name=$ZIP_NAME" >> $GITHUB_OUTPUT
@@ -170,10 +170,10 @@ jobs:
         run: |
           # Create releases directory
           mkdir -p releases
-          
+
           # Create plugin zip
           (cd source && zip -r "../releases/${{ steps.versions.outputs.zip_name }}" . -x ".*" -x "__MACOSX" -x "*.git*")
-          
+
           # Create copy for GitHub release
           cp "releases/${{ steps.versions.outputs.zip_name }}" "./${{ steps.versions.outputs.zip_name }}"
 
@@ -182,12 +182,12 @@ jobs:
           sed -i "s/\*\*Tested up to:\*\* [0-9.]*/**Tested up to:** ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.md
           sed -i "s/\*\*Stable tag:\*\* [0-9.]*/**Stable tag:** ${{ steps.versions.outputs.plugin_version }}/" README.md
           sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.md
-          
+
           # Update README.txt
           sed -i "s/Tested up to: [0-9.]*/Tested up to: ${{ github.event.inputs.wp_version || '6.6.2' }}/" README.txt
           sed -i "s/Stable tag: [0-9.]*/Stable tag: ${{ steps.versions.outputs.plugin_version }}/" README.txt
           sed -i "s|/releases/download/[0-9.]*/wpoven-plugin-switcher-[0-9-]*.zip|/releases/download/${{ steps.versions.outputs.plugin_version }}/${{ steps.versions.outputs.zip_name }}|" README.txt
-      
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
@@ -196,7 +196,7 @@ jobs:
           name: "WPOven Plugin Switcher v${{ steps.versions.outputs.plugin_version }}"
           body: |
             🚀 WPOven Plugin Switcher Release v${{ steps.versions.outputs.plugin_version }}
-            
+
             Release Date: ${{ steps.versions.outputs.release_date }}
             Tested with WordPress: ${{ github.event.inputs.wp_version || '6.6.2' }}
           draft: false

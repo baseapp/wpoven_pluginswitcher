@@ -8,7 +8,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-WPOven Plugin Switcher is a powerful WordPress management tool that enables users to easily activate or deactivate plugins on specific pages or posts, 
+WPOven Plugin Switcher is a powerful WordPress management tool that enables users to easily activate or deactivate plugins on specific pages or posts,
 optimizing site performance and functionality while streamlining plugin configurations for a customized website experience.
 
 == Screenshots ==
@@ -17,29 +17,27 @@ optimizing site performance and functionality while streamlining plugin configur
 == Installation ==
 
 1. **Download the Plugin:**
-     - To get the latest version of WPOven Plugin Switcher, you can either:
-     - [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
+- To get the latest version of WPOven Plugin Switcher, you can either:
+- [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
 
 2. **Upload the Plugin:**
-   - Log in to your WordPress admin dashboard.
-   - Navigate to **Plugins** > **Add New**.
-   - Click on the **Upload Plugin** button.
-   - Choose the downloaded ZIP file and click **Install Now**.
+- Log in to your WordPress admin dashboard.
+- Navigate to **Plugins** > **Add New**.
+- Click on the **Upload Plugin** button.
+- Choose the downloaded ZIP file and click **Install Now**.
 
 3. **Activate the Plugin:**
-   - After the installation is complete, click on the **Activate Plugin** link.
+- After the installation is complete, click on the **Activate Plugin** link.
 
 4. **Configure Plugin Settings:**
-   - Once activated, go to **Plugin Switcher Settings** > **WPOven Plugin Switcher** in the WordPress admin menu.
-   - Configure the plugin settings as per your requirements.
+- Once activated, go to **Plugin Switcher Settings** > **WPOven Plugin Switcher** in the WordPress admin menu.
+- Configure the plugin settings as per your requirements.
 
 5. **Usage:**
-   - To activate or deactivate plugins on specific pages or posts, follow the instructions in the plugin settings.
+- To activate or deactivate plugins on specific pages or posts, follow the instructions in the plugin settings.
 
 6. **Regular Updates:**
-   - Keep the plugin updated for the latest features and security improvements. You can update the plugin through the **Plugins** section in your WordPress admin dashboard.
-
-
+- Keep the plugin updated for the latest features and security improvements. You can update the plugin through the **Plugins** section in your WordPress admin dashboard.
 
 == Frequently Asked Questions ==
 
@@ -73,6 +71,9 @@ Yes, you can activate & deactivate a plugin on your staging site. This can be he
 To activate & deactivate a plugin using WPOven Plugin Switcher, go to the WPOven Plugin Switcher settings page and select the "Status, Rule Type, Select Plugins, Plugin Status" option for the plugin you want to activate or deactivate.
 
 == Changelog ==
+
+= 1.1.1 =
+* Prevent the plugin switcher from running on the frontend to improve page load performance.
 
 = 1.1.0 =
 * Prevent deactivation of WPOven Plugin Switcher.
