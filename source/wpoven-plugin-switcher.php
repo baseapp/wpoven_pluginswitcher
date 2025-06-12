@@ -16,7 +16,7 @@
  * Plugin Name:       WPOven Plugin Switcher
  * Plugin URI:        https://www.wpoven.com/plugins/wpoven-plugin-switcher
  * Description:       Allows users to quickly enable or disable plugins as per need. 
- * Version:           1.1.2
+ * Version:           1.1.3
  * Author:            WPOven
  * Author URI:        https://www.wpoven.com/
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if (!defined('WPINC')) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define('WPOVEN_PLUGIN_SWITCHER_VERSION', '1.1.2');
+define('WPOVEN_PLUGIN_SWITCHER_VERSION', '1.1.3');
 if (!defined('WPOVEN_PLUGIN_SWITCHER_SLUG'))
 	define('WPOVEN_PLUGIN_SWITCHER_SLUG', 'wpoven-plugin-switcher');
 

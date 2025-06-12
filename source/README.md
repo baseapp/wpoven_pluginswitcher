@@ -90,6 +90,10 @@ To activate & deactivate a plugin using WPOven Plugin Switcher, go to the WPOven
 
 ## Changelog
 
+### 1.1.3
+
+- Prevent PHP warning for post match.
+
 ### 1.1.2
 
 - Added support for defining post_match rules using POST key-value string format (e.g., key=value).
