@@ -5,7 +5,11 @@
 **Contributors:** [WPOven](https://www.wpoven.com/)  
 **Requires at least:** 6.6
 **Tested up to:** 6.6.2
+<<<<<<< HEAD
 **Stable tag:** 1.1.3
+=======
+**Stable tag:** 1.1.3  
+>>>>>>> 7d5d0738cd36bc1982bb0eff259ab2d43e291587
 **License:** GPLv2 or later  
 **License URI:** [http://www.gnu.org/licenses/gpl-2.0.html](http://www.gnu.org/licenses/gpl-2.0.html)
 
