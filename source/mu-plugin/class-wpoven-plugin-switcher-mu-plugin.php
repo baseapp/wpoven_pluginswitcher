@@ -88,8 +88,8 @@ class WPOvenPluginSwitcher
                             if (isset($rule['post_match']) && !empty($rule['post_match'])) {
                                 parse_str($rule['post_match'], $post_match);
 
-                                if ($post_match && is_array($_POST)) {
-                                    $result = array_intersect($post_match, $_POST);
+                                if (is_array($post_match) && is_array($_POST)) {
+                                    $result = array_intersect_assoc($post_match, $_POST);
                                 }
 
                                 if ((isset($result) && !empty($result)) && (isset($rule['plugins']) && !empty($rule['plugins']))) {
