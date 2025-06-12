@@ -2,7 +2,7 @@
 Contributors: https://www.wpoven.com/
 Requires at least: 6.6
 Tested up to: 6.6.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,7 +72,7 @@ To activate & deactivate a plugin using WPOven Plugin Switcher, go to the WPOven
 
 == Changelog ==
 
-= 1.1.2 =
+= 1.1.3 =
 * Prevent PHP warning for post match.
 
 = 1.1.2 =

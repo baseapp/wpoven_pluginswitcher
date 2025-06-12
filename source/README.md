@@ -23,7 +23,7 @@ WPOven Plugin Switcher is a powerful WordPress management tool that enables user
 
    - To get the latest version of WPOven Plugin Switcher, you can either:
      - [Visit WPOven's website](https://www.wpoven.com/plugins/wpoven-plugin-switcher) to learn more about the plugin.
-     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.0.0/wpoven-plugin-switcher.zip).
+     - Download directly from the GitHub repository: [Download](https://github.com/baseapp/wpoven_pluginswitcher/releases/download/1.1.3/wpoven-plugin-switcher.zip).
 
 2. **Upload the Plugin:**
 
