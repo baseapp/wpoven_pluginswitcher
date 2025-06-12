@@ -86,17 +86,20 @@ class WPOvenPluginSwitcher
                             }
 
                             if (isset($rule['post_match']) && !empty($rule['post_match'])) {
-                                $post_match = $rule['post_match'];
+                                parse_str($rule['post_match'], $post_match);
 
                                 if ($post_match && is_array($_POST)) {
-                                    $result = in_array($post_match, $_POST);
+                                    $result = array_intersect($post_match, $_POST);
                                 }
 
-                                if ((isset($result) && $result) && (isset($rule['plugins']) && !empty($rule['plugins']))) {
+                                if ((isset($result) && !empty($result)) && (isset($rule['plugins']) && !empty($rule['plugins']))) {
                                     $rulePlugins = $this->processPluginList($plugins, $rule['plugins'], $rule['plugin_status']);
                                     $matchFound = true;
                                     break;
                                 }
+
+                                // No match found or plugins empty, break out
+                                break;
                             }
 
                             if ($this->matchInput($current_page_url, $rule['url']) && (isset($rule['plugins']) && !empty($rule['plugins']))) {

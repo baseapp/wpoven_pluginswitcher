@@ -309,7 +309,7 @@ class Wpoven_Plugin_Switcher_Admin
 					'type'    => 'text',
 					'title'   => 'Post Match',
 					'required' => array($uid . '_type', 'equals', 'url'),
-					'desc'    => 'Post Match for a URL.'
+					'desc'     => 'Specify POST key-value pairs (e.g., key=value) that will be matched against incoming $_POST data.'
 				);
 
 				$pluginField = array(

@@ -13,7 +13,7 @@ on:
       plugin_version:
         description: "Plugin version to release"
         required: true
-        default: "1.1.1"
+        default: "1.1.2"
 
 env:
   PLUGIN_SLUG: "wpoven-plugin-switcher"
@@ -159,8 +159,8 @@ jobs:
         id: versions
         run: |
           RELEASE_DATE=$(date +'%Y-%m-%d')
-          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.1.1' }}"
-          ZIP_NAME="${{ env.PLUGIN_SLUG }}-${RELEASE_DATE}.zip"
+          PLUGIN_VERSION="${{ github.event.inputs.plugin_version || '1.1.2' }}"
+          ZIP_NAME="${{ env.PLUGIN_SLUG }}.zip"
 
           echo "release_date=$RELEASE_DATE" >> $GITHUB_OUTPUT
           echo "plugin_version=$PLUGIN_VERSION" >> $GITHUB_OUTPUT
