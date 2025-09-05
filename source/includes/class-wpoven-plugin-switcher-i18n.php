@@ -31,17 +31,23 @@ class Wpoven_Plugin_Switcher_i18n
 	/**
 	 * Load the plugin text domain for translation.
 	 *
-	 * @since    1.0.0
+	 * @since 1.0.0
 	 */
 	public function load_plugin_textdomain()
 	{
 
-		// phpcs:disable WordPress.WP.I18n.load_plugin_textdomain
-		load_plugin_textdomain(
-			'wpoven-plugin-switcher',
-			false,
-			dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
-		);
-		// phpcs:enable WordPress.WP.I18n.load_plugin_textdomain
+		// Since WP 4.6, WordPress.org plugins don’t need load_plugin_textdomain().
+		// This fallback ensures translations still load if distributed outside wp.org.
+		$domain = 'wpoven-plugin-switcher';
+
+		// First, try to load from WordPress.org language packs (auto-handled).
+		if (! is_textdomain_loaded($domain)) {
+			// Fallback: load from /languages directory inside the plugin.
+			load_plugin_textdomain(
+				$domain,
+				false,
+				dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
+			);
+		}
 	}
 }
