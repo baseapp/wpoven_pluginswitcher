@@ -36,11 +36,12 @@ class Wpoven_Plugin_Switcher_i18n
 	public function load_plugin_textdomain()
 	{
 
-		// phpcs:ignore WordPress.WP.I18n.load_plugin_textdomain
+		// phpcs:disable WordPress.WP.I18n.load_plugin_textdomain
 		load_plugin_textdomain(
 			'wpoven-plugin-switcher',
 			false,
 			dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
 		);
+		// phpcs:enable WordPress.WP.I18n.load_plugin_textdomain
 	}
 }
