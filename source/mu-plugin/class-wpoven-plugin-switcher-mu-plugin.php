@@ -109,6 +109,27 @@ class WPOvenPluginSwitcher
                             }
                         }
                         break;
+
+                    case 'front_end':
+
+                        if (
+                            ! is_admin()
+                            && isset($rule['plugins'])
+                            && ! empty($rule['plugins'])
+                        ) {
+
+                            // Example: skip wp-login, admin, API, ajax
+                            if (
+                                strpos($current_page_url, 'wp-login.php') === false &&
+                                strpos($current_page_url, 'wp-admin') === false &&
+                                strpos($current_page_url, 'wp-json') === false &&
+                                !(defined('DOING_AJAX') && DOING_AJAX)
+                            ) {
+                                $rulePlugins = $this->processPluginList($plugins, $rule['plugins'], $rule['plugin_status']);
+                                $matchFound  = true;
+                            }
+                        }
+                        break;
                 }
             }
         }

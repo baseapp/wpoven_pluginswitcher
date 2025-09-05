@@ -262,12 +262,14 @@ class Wpoven_Plugin_Switcher_Admin
 					'type'     => 'select',
 					'title'    => 'Rule Type',
 					'options'  => array(
-						'page' => 'Page',
-						'post' => 'Post',
-						'url'  => 'URL',
-						'home_page'  => 'Home Page',
+						'page' => 'Page (Target a specific WordPress page.)',
+						'post' => 'Post (Target a specific WordPress post.)',
+						'url'  => 'URL (Match a specific URL pattern.)',
+						'home_page'  => 'Home Page (Target the site\'s front page.)',
+						'front_end'  => 'Client View (Any front-end page view)',
 					),
-					'desc'     => 'Select rule type: page, post, home page or URL for plugin activation or deactivation."',
+
+					'desc'     => 'Select rule type: page, post, home page, client view or URL for plugin activation or deactivation."',
 					'default'  => 'page',
 				);
 
